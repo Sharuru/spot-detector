@@ -77,23 +77,28 @@ public class DetectorApplication implements CommandLineRunner {
                         log.info("now visiting region zone: " + aRegion.getRegionId() + " -> " + aZone.getZoneId());
                         aZone.getAvailableInstanceTypes().forEach(aInstanceType -> {
                             // target instance type
-                            if (instancesConfigurationMaps.containsKey(aInstanceType)) {
-                                areaApi.describeSpotPriceHistories(aRegion.getRegionId(), aZone.getZoneId(), aInstanceType, "vpc").getSpotPrices().forEach(aPrice -> {
-                                    // target instances
-                                    if (aPrice.getSpotPrice() / instancesConfigurationMaps.get(aInstanceType).getCpuCoreCount() <= AliyunConstants.maximumPerCorePrice) {
 
-                                        InstanceModel model = new InstanceModel();
+                            // FIXME filter t5 type
+                            String[] insTypeArr = aInstanceType.split("\\.");
+                            if (insTypeArr.length >= 3 && !insTypeArr[1].startsWith("t")) {
+                                if (instancesConfigurationMaps.containsKey(aInstanceType)) {
+                                    areaApi.describeSpotPriceHistories(aRegion.getRegionId(), aZone.getZoneId(), aInstanceType, "vpc").getSpotPrices().forEach(aPrice -> {
+                                        // target instances
+                                        if (aPrice.getSpotPrice() / instancesConfigurationMaps.get(aInstanceType).getCpuCoreCount() <= AliyunConstants.maximumPerCorePrice) {
 
-                                        model.setRegionId(aRegion.getRegionId());
-                                        model.setZoneId(aZone.getZoneId());
-                                        model.setInstanceType(aInstanceType);
-                                        model.setOriginPricePerHour(aPrice.getOriginPrice());
-                                        model.setPricePerHour(aPrice.getSpotPrice());
-                                        model.setPricePerCorePerHour(aPrice.getSpotPrice() / instancesConfigurationMaps.get(aInstanceType).getCpuCoreCount());
+                                            InstanceModel model = new InstanceModel();
 
-                                        targetInstantMaps.putIfAbsent(model.toString(), model);
-                                    }
-                                });
+                                            model.setRegionId(aRegion.getRegionId());
+                                            model.setZoneId(aZone.getZoneId());
+                                            model.setInstanceType(aInstanceType);
+                                            model.setOriginPricePerHour(aPrice.getOriginPrice());
+                                            model.setPricePerHour(aPrice.getSpotPrice());
+                                            model.setPricePerCorePerHour(aPrice.getSpotPrice() / instancesConfigurationMaps.get(aInstanceType).getCpuCoreCount());
+
+                                            targetInstantMaps.putIfAbsent(model.toString(), model);
+                                        }
+                                    });
+                                }
                             }
                         });
 
