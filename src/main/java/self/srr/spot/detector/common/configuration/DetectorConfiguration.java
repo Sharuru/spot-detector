@@ -18,6 +18,7 @@ public class DetectorConfiguration {
     public static class Aliyun {
         private String defaultRegionId;
         private String defaultRegionPrefix;
+        private String defaultLoginPassword;
         private String accessKeyId;
         private String accessSecret;
     }

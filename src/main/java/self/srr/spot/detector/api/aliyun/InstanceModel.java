@@ -14,4 +14,6 @@ public class InstanceModel {
     private float pricePerHour;
 
     private float pricePerCorePerHour;
+
+    private float originPricePerHour;
 }

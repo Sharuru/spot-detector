@@ -5,6 +5,7 @@ detector:
     aliyun:
       default-region-id: cn-hangzhou
       default-region-prefix: cn-
+      default-login-password: xxx
       access-key-id: xxx
       access-secret: xxx
 

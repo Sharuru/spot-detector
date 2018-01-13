@@ -4,14 +4,10 @@ import com.aliyuncs.ecs.model.v20140526.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import self.srr.spot.detector.common.configuration.DetectorConfiguration;
 
 @Component
 @Slf4j
-public class DescribeApi {
-
-    @Autowired
-    DetectorConfiguration detectorConfiguration;
+public class AreaApi {
 
     @Autowired
     AliyunUtils aliyunUtils;
@@ -28,6 +24,8 @@ public class DescribeApi {
         DescribeZonesRequest request = new DescribeZonesRequest();
 
         request.setRegionId(regionId);
+        request.setSpotStrategy("SpotWithPriceLimit");
+        request.setInstanceChargeType("PostPaid");
 
         return aliyunUtils.callApi(request);
     }
