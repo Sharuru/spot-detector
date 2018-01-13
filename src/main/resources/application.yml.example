@@ -1,0 +1,11 @@
+# Detector Configuration START
+
+detector:
+  api:
+    aliyun:
+      default-region-id: cn-hangzhou
+      default-region-prefix: cn-
+      access-key-id: xxx
+      access-secret: xxx
+
+# Detector Configuration END
