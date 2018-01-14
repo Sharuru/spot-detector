@@ -1,6 +1,5 @@
 package self.srr.spot.detector;
 
-import com.aliyuncs.ecs.model.v20140526.CreateInstanceResponse;
 import com.aliyuncs.ecs.model.v20140526.DescribeInstanceTypesResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import self.srr.spot.detector.common.configuration.DetectorConfiguration;
 import self.srr.spot.detector.common.constants.AliyunConstants;
 
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -68,7 +66,7 @@ public class DetectorApplication implements CommandLineRunner {
             // choose cn regions and zones only
             if (aRegion.getRegionId().startsWith(detectorConfiguration.getApi().getAliyun().getDefaultRegionPrefix())) {
 
-                Runnable cTask = () -> {
+                Runnable visitRegionTask = () -> {
 
                     log.info("visiting region: " + aRegion.getRegionId() + " on new thread");
 
@@ -81,6 +79,7 @@ public class DetectorApplication implements CommandLineRunner {
                             // FIXME filter t5 type
                             String[] insTypeArr = aInstanceType.split("\\.");
                             if (insTypeArr.length >= 3 && !insTypeArr[1].startsWith("t")) {
+
                                 if (instancesConfigurationMaps.containsKey(aInstanceType)) {
                                     areaApi.describeSpotPriceHistories(aRegion.getRegionId(), aZone.getZoneId(), aInstanceType, "vpc").getSpotPrices().forEach(aPrice -> {
                                         // target instances
@@ -90,7 +89,7 @@ public class DetectorApplication implements CommandLineRunner {
 
                                             model.setRegionId(aRegion.getRegionId());
                                             model.setZoneId(aZone.getZoneId());
-                                            model.setInstanceType(aInstanceType);
+                                            model.setInstanceType(instancesConfigurationMaps.get(aInstanceType));
                                             model.setOriginPricePerHour(aPrice.getOriginPrice());
                                             model.setPricePerHour(aPrice.getSpotPrice());
                                             model.setPricePerCorePerHour(aPrice.getSpotPrice() / instancesConfigurationMaps.get(aInstanceType).getCpuCoreCount());
@@ -105,8 +104,8 @@ public class DetectorApplication implements CommandLineRunner {
                     });
                 };
 
-                Future future = executorService.submit(cTask);
-                futures.add(future);
+                Future visitResult = executorService.submit(visitRegionTask);
+                futures.add(visitResult);
 
             }
         });
