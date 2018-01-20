@@ -33,7 +33,8 @@ public class InstanceApi {
         request.setInstanceChargeType("PostPaid");
         request.setSpotStrategy("SpotWithPriceLimit");
 
-        request.setSpotPriceLimit(AliyunConstants.maximumPerFourCorePrice * (cpuCoreCount / 4.0F));
+        //request.setSpotPriceLimit(AliyunConstants.maximumPerFourCorePrice * (cpuCoreCount / 4.0F));
+        request.setSpotPriceLimit(0.2F);
 
         return aliyunUtils.callApi(request);
 

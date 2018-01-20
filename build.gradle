@@ -15,7 +15,7 @@ apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
 group = 'self.srr.spot'
-version = '0.0.1-SNAPSHOT'
+version = '0.1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
@@ -31,6 +31,12 @@ dependencies {
 
     compile group: 'com.aliyun', name: 'aliyun-java-sdk-core', version: '3.5.0'
     compile group: 'com.aliyun', name: 'aliyun-java-sdk-ecs', version: '4.6.0'
+
+	compile('org.webjars:jquery:3.2.0')
+	compile('org.webjars:bootstrap:3.3.7-1')
+
+    compile 'org.webjars:datatables:1.10.16'
+    compile 'org.webjars:datatables-plugins:1.10.16'
 
     runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
