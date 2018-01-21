@@ -72,6 +72,45 @@
                 <h3>Step 2. Operation details</h3>
                 <p>Second, confirm the operation details.</p>
             </div>
+
+            <div style="padding-bottom: 10rem;">
+                <form>
+                    <div class="form-group">
+                        <label for="region-id">Region id</label>
+                        <input type="text" class="form-control" id="region-id" readonly="readonly" />
+                    </div>
+                    <div class="form-group">
+                        <label for="zone-id">Zone id</label>
+                        <input type="text" class="form-control" id="zone-id" readonly="readonly" />
+                    </div>
+                    <div class="form-group">
+                        <label for="type-id">Type id</label>
+                        <input type="text" class="form-control" id="type-id" readonly="readonly" />
+                    </div>
+                    <div class="form-group">
+                        <label for="config-name">Config name</label>
+                        <input type="text" class="form-control" id="config-name" readonly="readonly" />
+                    </div>
+                    <div class="form-group">
+                        <label for="price-info">Price info</label>
+                        <input type="text" class="form-control" id="price-info" readonly="readonly" />
+                    </div>
+                    <div class="form-group">
+                        <label for="os-image">OS image</label>
+                        <input type="text" class="form-control" id="os-image" value="ubuntu_16_0402_64_20G_alibase_20171227.vhd" />
+                    </div>
+                    <div class="form-group">
+                        <label for="instance-prefix">Instance name prefix</label>
+                        <input type="text" class="form-control" id="instance-prefix"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="instance-amount">Instance amount</label>
+                        <input type="number" class="form-control" id="instance-amount" min="1" max="25" value="10"/>
+                    </div>
+                    <button type="button" class="btn btn-danger" style="float: right;">Confirm</button>
+                </form>
+            </div>
+
         </div>
         <div role="tabpanel" class="tab-pane fade" id="deploy-progress">
             <div class="page-header">
@@ -119,6 +158,17 @@
             var count = $('#spot-plans-table').DataTable().rows( { selected: true } ).count();
             if(count === 1){
                 // goto step 2
+                var data = $('#spot-plans-table').DataTable().rows( { selected: true } ).data()[0];
+                $("#region-id").val(data['regionId']);
+                $("#zone-id").val(data['zoneId']);
+                $("#type-id").val(data['typeId']);
+                $("#config-name").val(data['configName']);
+                var priceInfo =
+                        'ppch: ' + data['pricePerCorePerHour'] + " / " +
+                        'spph: ' + data['pricePerHour'] + " / " +
+                        'opph: ' + data['originPricePerHour'] + " / " +
+                        'discount: ' + (data['pricePerHour'] / data['originPricePerHour']).toFixed(5);
+                $("#price-info").val(priceInfo);
                 $('a[href="#operation-details"]').tab('show');
             }else{
                 swal ( "Error" ,  "You should select at least ONE spot plan." ,  "error" );

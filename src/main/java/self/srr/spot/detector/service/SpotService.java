@@ -44,7 +44,7 @@ public class SpotService {
 
         // initialize instance type configuration map
         areaApi.describeInstanceTypes().getInstanceTypes().forEach(type -> {
-            // only 4vCPU or 8vCPU would be selected
+            // only 4vCPU or 2vCPU would be selected
             if (type.getCpuCoreCount() == 4 || type.getCpuCoreCount() == 2) {
                 instancesConfigurationMaps.putIfAbsent(type.getInstanceTypeId(), type);
             }
@@ -118,8 +118,6 @@ public class SpotService {
         log.info("visit complete.");
 
         List<InstanceModel> targetInstants = new ArrayList<>(targetInstantMaps.values());
-
-        //targetInstants.sort(Comparator.comparing(InstanceModel::getPricePerCorePerHour));
 
         log.info("Got: " + targetInstants.size() + " instance configurations matched requirement.");
 
