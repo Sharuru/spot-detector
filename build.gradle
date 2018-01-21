@@ -36,7 +36,6 @@ dependencies {
 	compile('org.webjars:bootstrap:3.3.7-1')
 
     compile 'org.webjars:datatables:1.10.16'
-    compile 'org.webjars:datatables-plugins:1.10.16'
 
     runtime('org.springframework.boot:spring-boot-devtools')
 	compileOnly('org.springframework.boot:spring-boot-configuration-processor')

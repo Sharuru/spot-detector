@@ -36,7 +36,7 @@ public class SpotService {
     @Autowired
     PublicIpApi publicIpApi;
 
-    public List<InstanceModel> getOrderedSpotInstancePlans() {
+    public List<InstanceModel> getSpotPlans() {
 
         Map<String, DescribeInstanceTypesResponse.InstanceType> instancesConfigurationMaps = new HashMap<>();
 
@@ -119,7 +119,7 @@ public class SpotService {
 
         List<InstanceModel> targetInstants = new ArrayList<>(targetInstantMaps.values());
 
-        targetInstants.sort(Comparator.comparing(InstanceModel::getPricePerCorePerHour));
+        //targetInstants.sort(Comparator.comparing(InstanceModel::getPricePerCorePerHour));
 
         log.info("Got: " + targetInstants.size() + " instance configurations matched requirement.");
 

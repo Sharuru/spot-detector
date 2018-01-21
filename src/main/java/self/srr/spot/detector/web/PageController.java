@@ -31,8 +31,36 @@ public class PageController {
 
         List<InstanceModel> list = new ArrayList<>();
 
+        InstanceModel dummy = new InstanceModel();
+        dummy.setRegionId("cn-dummy");
+        dummy.setZoneId("cn-dummy-a");
+        dummy.setPricePerHour(0.2F);
+        dummy.setPricePerCorePerHour(0.1F);
+        dummy.setOriginPricePerHour(2.0F);
+        dummy.setTypeId("ecs.dummy.xlarge");
+        dummy.setConfigName("2C4G");
+        InstanceModel dummy1 = new InstanceModel();
+        dummy1.setRegionId("cn-dummy");
+        dummy1.setZoneId("cn-dummy-b");
+        dummy1.setPricePerHour(0.4F);
+        dummy1.setPricePerCorePerHour(0.2F);
+        dummy1.setOriginPricePerHour(4.0F);
+        dummy1.setTypeId("ecs.dummy.xxlarge");
+        dummy1.setConfigName("2C8G");
+        InstanceModel dummy3 = new InstanceModel();
+        dummy3.setRegionId("cn-dummy");
+        dummy3.setZoneId("cn-dummy-a");
+        dummy3.setPricePerHour(0.21F);
+        dummy3.setPricePerCorePerHour(0.12F);
+        dummy3.setOriginPricePerHour(2.01F);
+        dummy3.setTypeId("ecs.dummy.xlarge");
+        dummy3.setConfigName("2C4G");
+
         if (fetchType.equalsIgnoreCase("fetch")) {
-            list.addAll(spotService.getOrderedSpotInstancePlans());
+            //list.addAll(spotService.getSpotInstancePlans());
+            list.add(dummy);
+            list.add(dummy1);
+            list.add(dummy3);
         }
 
         DataTableResponse resp = new DataTableResponse();
