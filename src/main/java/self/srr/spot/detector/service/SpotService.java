@@ -36,9 +36,7 @@ public class SpotService {
     @Autowired
     PublicIpApi publicIpApi;
 
-
-    public void dummyArea() {
-
+    public List<InstanceModel> getOrderedSpotInstancePlans() {
 
         Map<String, DescribeInstanceTypesResponse.InstanceType> instancesConfigurationMaps = new HashMap<>();
 
@@ -125,7 +123,12 @@ public class SpotService {
 
         log.info("Got: " + targetInstants.size() + " instance configurations matched requirement.");
 
-        targetInstants.forEach(o -> log.info(o.toString()));
+        return targetInstants;
+    }
+
+
+    public void dummyArea() {
+
 //
 //        //TODO
         //InstanceModel m = targetInstants.get(0);

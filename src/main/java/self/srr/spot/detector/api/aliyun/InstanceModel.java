@@ -18,6 +18,16 @@ public class InstanceModel {
 
     private DescribeInstanceTypesResponse.InstanceType instanceType;
 
+    private String typeId;
+
+    private String configName;
+
+    public void setInstanceType(DescribeInstanceTypesResponse.InstanceType instanceType) {
+        this.instanceType = instanceType;
+        this.typeId = instanceType.getInstanceTypeId();
+        this.configName = instanceType.getCpuCoreCount() + "C" + instanceType.getMemorySize().intValue() + "G";
+    }
+
     @Override
     public String toString() {
         return "InstanceModel{" +
@@ -26,8 +36,9 @@ public class InstanceModel {
                 ", pricePerHour=" + pricePerHour +
                 ", pricePerCorePerHour=" + pricePerCorePerHour +
                 ", originPricePerHour=" + originPricePerHour +
-                ", instanceTypeId=" + instanceType.getInstanceTypeId() +
-                ", instanceConfiguration=" + instanceType.getCpuCoreCount() + "C" + instanceType.getMemorySize().intValue() + "G" +
+                ", typeId=" + typeId +
+                ", configName=" + configName +
                 '}';
     }
+
 }
